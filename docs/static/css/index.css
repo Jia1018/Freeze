@@ -205,7 +205,7 @@ body {
 }
 
 .fig-70 { width: 65%; }
-.fig-90 { width: 60%; }
+.fig-90 { width: 72%; }
 @media (max-width: 768px) {
   .fig-70, .fig-90 { width: 100%; }
 }
