@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Camera and Scene Motion Interfere with Each Other in Video Representations. The Freeze benchmark and the CamBit and SceneBit representations.">
+  <meta name="keywords" content="video representations, camera motion, scene motion, interference, Freeze benchmark, CamBit, SceneBit">
+  <title>Camera and Scene Motion Interfere with Each Other in Video Representations</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Camera and Scene Motion Interfere<br>with Each Other in Video Representations</h1>
+          <!-- TODO(venue): replace with the venue once accepted, e.g. <span class="publication-venue">CVPR 2027</span> -->
+          <div class="is-size-5 publication-venue-line">
+            <span class="publication-venue">Under review</span>
+          </div>
+          <!-- ===== AUTHOR BLOCK SWITCH (TODO: author decision) =====================================
+               Variant A (named, as in the arXiv build) is ACTIVE below.
+               To go anonymous: comment out Variant A and uncomment Variant B,
+               and also switch the BibTeX block further down. -->
+          <!-- Variant A: named -->
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Ziqi Zhou,</span>
+            <span class="author-block">Laura Sevilla-Lara</span>
+            <!-- TODO(author-links): optionally wrap names in <a href="...homepage...">...</a> -->
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">University of Edinburgh</span>
+          </div>
+          <!-- Variant B: anonymous (for the review period)
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Anonymous authors</span>
+          </div>
+          -->
+          <!-- ===== END AUTHOR BLOCK SWITCH ===== -->
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- TODO(paper-link): set href to the paper PDF (e.g. arXiv PDF) and remove the disabled attribute -->
+              <span class="link-block">
+                <a href="#" class="external-link button is-normal is-rounded is-dark" disabled>
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- TODO(supp-link): set href to the supplementary material and remove the disabled attribute -->
+              <span class="link-block">
+                <a href="#" class="external-link button is-normal is-rounded is-dark" disabled>
+                  <span class="icon"><i class="fas fa-file-alt"></i></span>
+                  <span>Supplementary</span>
+                </a>
+              </span>
+              <!-- TODO(code-link): set href to the code repository and remove the disabled attribute -->
+              <span class="link-block">
+                <a href="#" class="external-link button is-normal is-rounded is-dark" disabled>
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+              <!-- TODO(data-link): set href to the Freeze benchmark download and remove the disabled attribute -->
+              <span class="link-block">
+                <a href="#" class="external-link button is-normal is-rounded is-dark" disabled>
+                  <span class="icon"><i class="fas fa-database"></i></span>
+                  <span>Freeze Benchmark</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/teaser.png" alt="Two Something-Something v2 clips in which both the object and the camera move, with first frame, last frame, temporal mean, motion energy and the linear-probe results of four backbones.">
+      <h2 class="subtitle has-text-centered teaser-caption">
+        Two Something-Something v2 clips, <i>Pushing something from right to left</i> (1) and
+        <i>Moving something up</i> (2), in which both the object and the camera move. Despite the classes being simple,
+        state-of-the-art video backbones misclassify the clips.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Real-world videos often contain both camera motion and scene motion, which are typically encoded jointly
+            within video representations. This joint encoding raises the possibility that the two sources of motion may
+            interfere with one another, potentially affecting the quality of the learned representations. In this paper,
+            we first investigate whether and to what extent camera motion and scene motion adversely affect the
+            performance of state-of-the-art video foundation models on downstream tasks. To this end, we introduce
+            <span class="dnerf">Freeze</span>, a synthetic benchmark composed of triplets of video clips: one where both
+            objects and camera are moving, the same with fixed camera, and the same with fixed scene. To our knowledge,
+            it is the first benchmark that makes the interference of camera motion and scene motion measurable under
+            controlled conditions. We test four video foundation models on <span class="dnerf">Freeze</span> and find that
+            all of them perform better on every camera and scene task once the other motion is frozen, so the motion
+            interference exists in both directions. Given this observation, our second focus is to explore whether the
+            representations of the frozen versions can be approximated simply, in a post hoc manner. We leverage
+            <span class="dnerf">Freeze</span> to learn two lightweight mappings that take as input video features and
+            bring them closer to the frozen-scene and frozen-camera versions, respectively. The resulting camera
+            representation, <span class="dnerf">CamBit</span>, improves camera understanding and geometric grounding on
+            real videos for nearly every task and backbone. The scene representation,
+            <span class="dnerf">SceneBit</span>, improves the scene tasks of <span class="dnerf">Freeze</span> and those
+            on real videos, and our analysis shows that its effect is highly context-dependent. Overall,
+            <span class="dnerf">Freeze</span> and the post hoc mappings open a new path towards understanding how camera
+            and scene motion interact in video representation learning, and mitigating their interference where it
+            arises.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <!-- ================= Freeze benchmark ================= -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3" id="benchmark">The <span class="dnerf">Freeze</span> benchmark</h2>
+        <div class="content has-text-justified">
+          <p>
+            <span class="dnerf">Freeze</span> is a synthetic benchmark in which one source of motion can be frozen while
+            everything else stays fixed. Every clip comes in three versions with identical content and first frame:
+            <b>full</b> (camera and scene move), <b>camera frozen</b> and <b>scene frozen</b>. Two subsets cover the two
+            kinds of scene motion found in real videos:
+          </p>
+          <ul>
+            <li><b><span class="dnerf">Freeze</span>-Object</b>: rendered with Kubric. One to five rigid shapes in a room
+              follow one of four types of physics (collision, drop / bounce, rolling, static), while the camera combines up
+              to seven motion axes (three translations, pan, tilt, roll and zoom). Rendering each simulation again with the
+              camera, or every object, held at its first-frame state gives the two frozen versions. 500 triplets in 80 rooms.</li>
+            <li><b><span class="dnerf">Freeze</span>-Human</b>: built from Cam&times;Time, where each scene films an
+              animated human character along four camera trajectories and every moment of the motion is rendered from
+              every camera position. Holding the camera at its first position gives the camera-frozen version, holding the
+              motion at its first moment gives the scene-frozen version. All 417 scenes.</li>
+          </ul>
+          <p>
+            Camera motion is labelled with CameraBench's 15 binary primitives. For scene motion, we classify the
+            <em>physics family</em> on <span class="dnerf">Freeze</span>-Object, and on <span class="dnerf">Freeze</span>-Human
+            we ask whether two windows filmed along different trajectories show the <em>same moment</em>.
+          </p>
+        </div>
+
+        <!-- Visualisation figure (paper Fig. 2) re-assembled from its row strips -->
+        <h3 class="title is-5 subset-title"><span class="dnerf">Freeze</span>-Object</h3>
+        <table class="viz-table">
+          <tr><th></th><td><div class="viz-head"><span>First frame</span><span>Last frame</span><span>Temporal mean</span><span>Point tracks</span><span>Motion energy</span></div></td></tr>
+          <tr><th>Full</th><td><img src="static/images/viz_obj_r0.png" alt="Freeze-Object, full version"></td></tr>
+          <tr><th>Camera frozen</th><td><img src="static/images/viz_obj_r1.png" alt="Freeze-Object, camera-frozen version"></td></tr>
+          <tr><th>Scene frozen</th><td><img src="static/images/viz_obj_r2.png" alt="Freeze-Object, scene-frozen version"></td></tr>
+        </table>
+        <h3 class="title is-5 subset-title"><span class="dnerf">Freeze</span>-Human</h3>
+        <table class="viz-table">
+          <tr><th></th><td><div class="viz-head"><span>First frame</span><span>Last frame</span><span>Temporal mean</span><span>Point tracks</span><span>Motion energy</span></div></td></tr>
+          <tr><th>Full</th><td><img src="static/images/viz_hum_r0.png" alt="Freeze-Human, full version"></td></tr>
+          <tr><th>Camera frozen</th><td><img src="static/images/viz_hum_r1.png" alt="Freeze-Human, camera-frozen version"></td></tr>
+          <tr><th>Scene frozen</th><td><img src="static/images/viz_hum_r2.png" alt="Freeze-Human, scene-frozen version"></td></tr>
+        </table>
+        <p class="fig-caption">
+          Examples of a <span class="dnerf">Freeze</span>-Object clip and a <span class="dnerf">Freeze</span>-Human clip,
+          each in its three versions. In addition to the first and last frames, we present the temporal mean, point tracks
+          and motion energy (mean optical-flow magnitude) to show how the motion differs within a triplet.
+        </p>
+
+        <!-- Videos -->
+        <h3 class="title is-4 subset-title">Example triplets</h3>
+        <div class="content has-text-justified">
+          <p>Each video shows one clip in its three versions side by side, frame-synchronised:
+            <b>full</b> | <b>camera frozen</b> | <b>scene frozen</b>. Videos play when scrolled into view.</p>
+        </div>
+
+        <h4 class="title is-5"><span class="dnerf">Freeze</span>-Object: physics types</h4>
+        <div class="clip-grid" id="grid-physics"></div>
+
+        <h4 class="title is-5"><span class="dnerf">Freeze</span>-Object: camera motion</h4>
+        <p class="fig-caption" style="margin-top:-0.8rem; margin-bottom:0;">One clip per camera motion; grey text lists other
+          camera motions present in the same clip. In the scene-frozen version all image motion comes from the camera.</p>
+        <div class="clip-grid" id="grid-camobj"></div>
+
+        <h4 class="title is-5"><span class="dnerf">Freeze</span>-Human: camera motion</h4>
+        <p class="fig-caption" style="margin-top:-0.8rem; margin-bottom:0;">Camera-task windows from the camera-by-time grid.
+          Full: camera and person move; camera frozen: one camera; scene frozen: one time step.</p>
+        <div class="clip-grid" id="grid-camhum"></div>
+
+        <h4 class="title is-5"><span class="dnerf">Freeze</span>-Human: same-moment pairs</h4>
+        <p class="fig-caption" style="margin-top:-0.8rem; margin-bottom:0;">Two windows from different camera trajectories of
+          one scene (full version). Positive pairs start at the same time step, negative pairs at different ones.</p>
+        <div class="clip-grid pairs" id="grid-moment"></div>
+
+        <!-- Benchmark result -->
+        <h3 class="title is-4 subset-title">Interference exists in both directions</h3>
+        <div class="content has-text-justified">
+          <p>
+            We evaluate four pre-trained video backbones (V-JEPA 2.1, VideoMAEv2, RVM and WhatMoves), kept fixed, with
+            linear probes. For each task, one probe is trained on the full clips and another on their frozen versions.
+            Every backbone does better on every task once the other motion is frozen: the interference between camera
+            and scene motion is not only intuitive but measurable, and it occurs in both directions.
+          </p>
+        </div>
+        <div class="table-container">
+          <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth results-table">
+            <thead>
+              <tr>
+                <th rowspan="2" class="lbl">Backbone</th>
+                <th colspan="3">Camera, Object (mAP)</th>
+                <th colspan="3">Camera, Human (mAP)</th>
+                <th colspan="3">Physics family, Object (acc.)</th>
+                <th colspan="3">Same moment, Human (AUC)</th>
+              </tr>
+              <tr>
+                <th>full</th><th>scene frozen</th><th>&Delta;</th>
+                <th>full</th><th>scene frozen</th><th>&Delta;</th>
+                <th>full</th><th>camera frozen</th><th>&Delta;</th>
+                <th>full</th><th>camera frozen</th><th>&Delta;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="lbl">V-JEPA 2.1</td><td>71.1</td><td>76.6</td><td class="gain">+5.5</td><td>83.0</td><td>86.1</td><td class="gain">+3.1</td><td>69.4</td><td>88.2</td><td class="gain">+18.8</td><td>53.1</td><td>67.4</td><td class="gain">+14.3</td></tr>
+              <tr><td class="lbl">VideoMAEv2</td><td>42.6</td><td>46.3</td><td class="gain">+3.7</td><td>48.9</td><td>57.1</td><td class="gain">+8.3</td><td>88.0</td><td>92.8</td><td class="gain">+4.8</td><td>65.6</td><td>74.2</td><td class="gain">+8.6</td></tr>
+              <tr><td class="lbl">RVM</td><td>66.5</td><td>76.6</td><td class="gain">+10.1</td><td>94.3</td><td>95.2</td><td class="gain">+0.9</td><td>74.0</td><td>86.0</td><td class="gain">+12.0</td><td>55.3</td><td>66.6</td><td class="gain">+11.3</td></tr>
+              <tr><td class="lbl">WhatMoves</td><td>76.1</td><td>88.2</td><td class="gain">+12.1</td><td>91.4</td><td>94.6</td><td class="gain">+3.2</td><td>83.0</td><td>91.0</td><td class="gain">+8.0</td><td>70.8</td><td>89.4</td><td class="gain">+18.7</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-caption">
+          For all four backbones, probes score higher on every task when the other motion is frozen. All scores are in %.
+          &Delta; is the frozen score minus the full score in points.
+        </p>
+      </div>
+    </div>
+
+    <!-- ================= Method ================= -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3" id="method"><span class="dnerf">CamBit</span> and <span class="dnerf">SceneBit</span>: post hoc mappings</h2>
+        <img class="fig-90" src="static/images/overview.png" alt="Overview of the camera and scene mappings that produce CamBit and SceneBit from fixed backbone features.">
+        <p class="fig-caption">
+          Overview of the model that extracts <span class="dnerf">CamBit</span> and <span class="dnerf">SceneBit</span> from
+          the features of a given backbone. To train, we use triplets of nearly-identical videos, where either both scene and
+          camera move (&ldquo;Full&rdquo;), only the camera moves (&ldquo;Scene frozen&rdquo;) or only the scene moves
+          (&ldquo;Camera frozen&rdquo;). Two small networks map the original features to each of the two other features in
+          the triplet; auxiliary tasks (pose head and future anticipation) constrain the optimization on real-world videos.
+        </p>
+        <div class="content has-text-justified">
+          <p>
+            Video representations capture each kind of motion better once the other is frozen. We therefore learn to map
+            the features of the full clip towards those of a frozen version, and apply the mapping post hoc to real
+            videos without re-training the backbone. Both mappings act on the backbone features <i>x</i> (8 temporal
+            steps), share one small Transformer architecture with a residual form, and return features of the same shape,
+            so they can be used wherever <i>x</i> is.
+          </p>
+          <p>
+            <b><span class="dnerf">CamBit</span></b> = <i>x</i> &minus; <i>w</i>(<i>x</i>) is trained to bring <i>x</i>
+            closer to the features of its <b>scene-frozen</b> version on <span class="dnerf">Freeze</span>, and to leave a
+            clip unchanged when its scene is already frozen. To close the domain gap, it is also supervised with the
+            camera motion of real clips (Condensed Movies, with poses estimated by VGGT-&Omega;) and BEDLAM2: a pose head
+            predicts the direction and speed of the camera motion between consecutive steps.
+          </p>
+          <p>
+            <b><span class="dnerf">SceneBit</span></b> = <i>x</i> &minus; <i>u</i>(<i>x</i>) is trained towards the
+            <b>camera-frozen</b> version. On real videos, it learns from augmented pairs: a real camera path replayed as a
+            moving crop on clips filmed with a still camera, paired with a fixed crop. A contrastive invariance term pulls
+            the two versions of a clip together, and a recurrent head that predicts the next step of the original features
+            keeps the scene motion from being discarded along with the camera motion.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= Results ================= -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3" id="results">Results</h2>
+        <div class="content has-text-justified">
+          <p>
+            For each of the four backbones, we compare the original features with <span class="dnerf">CamBit</span> and
+            <span class="dnerf">SceneBit</span> using the same linear probes, on real videos and on held-out
+            <span class="dnerf">Freeze</span> scenes, averaged over three training seeds.
+          </p>
+        </div>
+
+        <h3 class="title is-4">Camera results</h3>
+        <div class="content has-text-justified">
+          <p>
+            <span class="dnerf">CamBit</span> improves camera understanding (CameraBench, ACaM, held-out
+            <span class="dnerf">Freeze</span>) and geometric grounding (relative pose on DL3DV, EMDB and TUM RGB-D) on
+            nearly every task and backbone, sometimes by close to 20 points. The camera information is implicit in the
+            features and can be extracted post hoc, without re-training the foundation model.
+          </p>
+        </div>
+        <div class="table-container">
+          <table class="table is-bordered is-narrow is-hoverable is-fullwidth results-table">
+            <thead>
+              <tr>
+                <th rowspan="3" class="lbl"></th>
+                <th colspan="5">Camera understanding &uarr;</th>
+                <th colspan="3">Geometric grounding &darr;</th>
+              </tr>
+              <tr>
+                <th colspan="2">CameraBench</th><th>ACaM</th><th><span class="dnerf">Freeze</span>-O.</th><th><span class="dnerf">Freeze</span>-H.</th>
+                <th>DL3DV</th><th>EMDB</th><th>TUM RGB-D</th>
+              </tr>
+              <tr>
+                <th>mAP</th><th>Retrieval</th><th>Acc.</th><th>mAP</th><th>mAP</th><th>zMSE</th><th>zMSE</th><th>zMSE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="lbl">V-JEPA 2.1</td><td>70.4</td><td>31.0</td><td>74.1</td><td>53.8</td><td>74.8</td><td>.721</td><td>.503</td><td>.879</td></tr>
+              <tr class="map-row"><td class="lbl">&nbsp;&nbsp;+ <span class="dnerf">CamBit</span></td><td><b>84.0</b><span class="gain">+13.6</span></td><td><b>41.5</b><span class="gain">+10.5</span></td><td><b>81.8</b><span class="gain">+7.7</span></td><td><b>60.3</b><span class="gain">+6.5</span></td><td><b>93.8</b><span class="gain">+19.0</span></td><td><b>.643</b><span class="gain">&minus;.078</span></td><td><b>.200</b><span class="gain">&minus;.303</span></td><td><b>.421</b><span class="gain">&minus;.458</span></td></tr>
+              <tr><td class="lbl">WhatMoves</td><td>70.8</td><td>32.9</td><td>73.2</td><td>60.1</td><td>92.2</td><td>.595</td><td>.335</td><td>.420</td></tr>
+              <tr class="map-row"><td class="lbl">&nbsp;&nbsp;+ <span class="dnerf">CamBit</span></td><td><b>81.3</b><span class="gain">+10.5</span></td><td><b>41.2</b><span class="gain">+8.3</span></td><td><b>77.9</b><span class="gain">+4.7</span></td><td><b>66.1</b><span class="gain">+6.0</span></td><td><b>92.6</b><span class="gain">+0.4</span></td><td><b>.586</b><span class="gain">&minus;.009</span></td><td><b>.249</b><span class="gain">&minus;.086</span></td><td><b>.345</b><span class="gain">&minus;.075</span></td></tr>
+              <tr><td class="lbl">VideoMAEv2</td><td>50.7</td><td>20.9</td><td>61.9</td><td>29.1</td><td>40.0</td><td>.884</td><td>.778</td><td>1.026</td></tr>
+              <tr class="map-row"><td class="lbl">&nbsp;&nbsp;+ <span class="dnerf">CamBit</span></td><td><b>70.4</b><span class="gain">+19.7</span></td><td><b>39.3</b><span class="gain">+18.4</span></td><td><b>71.2</b><span class="gain">+9.3</span></td><td><b>44.6</b><span class="gain">+15.5</span></td><td><b>80.7</b><span class="gain">+40.7</span></td><td><b>.771</b><span class="gain">&minus;.113</span></td><td><b>.445</b><span class="gain">&minus;.333</span></td><td><b>.794</b><span class="gain">&minus;.232</span></td></tr>
+              <tr><td class="lbl">RVM</td><td>70.4</td><td>29.9</td><td>69.7</td><td>50.4</td><td>87.3</td><td>.704</td><td>.405</td><td>.700</td></tr>
+              <tr class="map-row"><td class="lbl">&nbsp;&nbsp;+ <span class="dnerf">CamBit</span></td><td><b>82.2</b><span class="gain">+11.8</span></td><td><b>41.5</b><span class="gain">+11.6</span></td><td><b>79.2</b><span class="gain">+9.5</span></td><td><b>64.6</b><span class="gain">+14.2</span></td><td><b>94.1</b><span class="gain">+6.8</span></td><td><b>.656</b><span class="gain">&minus;.048</span></td><td><b>.303</b><span class="gain">&minus;.102</span></td><td><b>.453</b><span class="gain">&minus;.247</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-caption">
+          Camera results. Each blue <span class="dnerf">CamBit</span> row reads <span class="dnerf">CamBit</span> computed from
+          the backbone features of the row above, with the same probe. <span class="dnerf">Freeze</span>-O. and
+          <span class="dnerf">Freeze</span>-H.: the held-out scenes of <span class="dnerf">Freeze</span>-Object and
+          <span class="dnerf">Freeze</span>-Human. Understanding scores are in %, and zMSE is the mean squared error of the
+          standardized pose (lower is better). Retrieval: CameraBench's skill-based retrieval (group score). Green numbers
+          give the change from the backbone row, and the better value of each pair is in bold.
+        </p>
+
+        <h3 class="title is-4">Scene results</h3>
+        <div class="content has-text-justified">
+          <p>
+            On the held-out <span class="dnerf">Freeze</span> scenes, <span class="dnerf">SceneBit</span> improves
+            physics-family accuracy on all four backbones and same-moment AUC on three of them. On real videos
+            (Diving48, SSv2, and the egocentric EPIC-KITCHENS and Ego-Exo4D, where the head-mounted camera moves more), the
+            effects are more nuanced and the gains are overall moderate, which motivates the analysis below.
+          </p>
+        </div>
+        <div class="table-container">
+          <table class="table is-bordered is-narrow is-hoverable is-fullwidth results-table">
+            <thead>
+              <tr>
+                <th rowspan="2" class="lbl"></th>
+                <th><span class="dnerf">Freeze</span>-O.</th><th><span class="dnerf">Freeze</span>-H.</th><th>Diving48</th><th>SSv2</th>
+                <th colspan="2">EPIC-K.</th><th colspan="2">Ego-Exo4D</th>
+              </tr>
+              <tr>
+                <th>Acc.</th><th>AUC</th><th>Acc.</th><th>Acc.</th><th>Acc. (All)</th><th>Acc. (High)</th><th>Acc. (All)</th><th>Acc. (High)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="lbl">V-JEPA 2.1</td><td>23.4</td><td>51.6</td><td>25.7</td><td>39.8</td><td>33.8</td><td>24.5</td><td>16.4</td><td>12.2</td></tr>
+              <tr class="map-row"><td class="lbl">&nbsp;&nbsp;+ <span class="dnerf">SceneBit</span></td><td><b>35.3</b><span class="gain">+11.9</span></td><td><b>52.7</b><span class="gain">+1.1</span></td><td><b>26.0</b><span class="gain">+0.3</span></td><td><b>39.9</b><span class="gain">+0.1</span></td><td><b>34.7</b><span class="gain">+0.9</span></td><td><b>25.5</b><span class="gain">+1.0</span></td><td><b>17.0</b><span class="gain">+0.6</span></td><td><b>12.5</b><span class="gain">+0.3</span></td></tr>
+              <tr><td class="lbl">WhatMoves</td><td>31.3</td><td>61.6</td><td>22.0</td><td>24.4</td><td>24.8</td><td>18.4</td><td>11.3</td><td>8.3</td></tr>
+              <tr class="map-row"><td class="lbl">&nbsp;&nbsp;+ <span class="dnerf">SceneBit</span></td><td><b>51.7</b><span class="gain">+20.4</span></td><td><b>70.1</b><span class="gain">+8.5</span></td><td><b>22.3</b><span class="gain">+0.3</span></td><td><b>24.5</b><span class="gain">+0.1</span></td><td><b>25.3</b><span class="gain">+0.5</span></td><td><b>18.9</b><span class="gain">+0.5</span></td><td><b>11.8</b><span class="gain">+0.5</span></td><td><b>8.7</b><span class="gain">+0.4</span></td></tr>
+              <tr><td class="lbl">VideoMAEv2</td><td>51.7</td><td><b>57.9</b></td><td>27.2</td><td><b>30.6</b></td><td><b>30.3</b></td><td>22.4</td><td><b>20.1</b></td><td><b>16.7</b></td></tr>
+              <tr class="map-row"><td class="lbl">&nbsp;&nbsp;+ <span class="dnerf">SceneBit</span></td><td><b>57.7</b><span class="gain">+6.0</span></td><td>57.6<span class="drop">&minus;0.3</span></td><td><b>27.3</b><span class="gain">+0.1</span></td><td><b>30.6</b><span class="gain">+0.0</span></td><td><b>30.3</b><span class="gain">+0.0</span></td><td><b>23.0</b><span class="gain">+0.6</span></td><td>20.0<span class="drop">&minus;0.1</span></td><td><b>16.7</b><span class="gain">+0.0</span></td></tr>
+              <tr><td class="lbl">RVM</td><td>18.9</td><td>53.4</td><td>20.1</td><td>36.8</td><td>29.9</td><td>20.5</td><td>13.4</td><td>10.1</td></tr>
+              <tr class="map-row"><td class="lbl">&nbsp;&nbsp;+ <span class="dnerf">SceneBit</span></td><td><b>30.8</b><span class="gain">+11.9</span></td><td><b>55.3</b><span class="gain">+1.9</span></td><td><b>21.2</b><span class="gain">+1.1</span></td><td><b>36.9</b><span class="gain">+0.1</span></td><td><b>30.2</b><span class="gain">+0.3</span></td><td><b>21.5</b><span class="gain">+1.0</span></td><td><b>14.3</b><span class="gain">+0.9</span></td><td><b>11.8</b><span class="gain">+1.7</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-caption">
+          Scene results. Each blue <span class="dnerf">SceneBit</span> row reads <span class="dnerf">SceneBit</span> computed
+          from the backbone features of the row above, with the same probe. <span class="dnerf">Freeze</span>-O. and
+          <span class="dnerf">Freeze</span>-H.: physics-family accuracy and same-moment AUC on the held-out scenes. EPIC-K.
+          (EPIC-KITCHENS) and Ego-Exo4D: class-balanced accuracy on all validation clips (All) and on those with much head
+          motion (High). All scores are in % (higher is better). Green and red numbers give the increase and decrease from
+          the backbone, and the better value of each pair is in bold.
+        </p>
+      </div>
+    </div>
+
+    <!-- ================= Analysis ================= -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3" id="analysis">Analysis</h2>
+
+        <div class="analysis-block">
+          <h3 class="title is-5">Does camera speed affect the gain of the scene mapping?</h3>
+          <img class="fig-70" src="static/images/analysis_speed.png" alt="Gain of SceneBit as a function of camera speed on EPIC-KITCHENS and SSv2.">
+          <p class="fig-caption">
+            <span class="dnerf">SceneBit</span> is more effective in clips with higher camera speed. (a) EPIC-KITCHENS,
+            measured head motion. (b) SSv2, camera speed estimated with VGGT-&Omega;. The bands show &plusmn;1 standard error
+            of the smoothed gain. Clips with a nearly still camera contain little camera motion that interferes with the
+            scene, so the mapping can add little; the gain grows with camera speed, consistently across backbones.
+          </p>
+        </div>
+
+        <div class="analysis-block">
+          <h3 class="title is-5">Is learning the scene mapping harder than learning the camera mapping?</h3>
+          <img class="fig-70" src="static/images/analysis_geometry.png" alt="Feature-space geometry of Freeze-Human triplets for four backbones.">
+          <p class="fig-caption">
+            The full clip is closer to its scene-frozen version than to its camera-frozen version in feature space
+            (<span class="dnerf">Freeze</span>-Human). (a) 2-D PCA of 30 random triplets per backbone, with each full clip
+            joined to its two frozen versions. (b) Cosine distance to the full clip over all test triplets (log scale,
+            vertical lines: medians). (c) R<sup>2</sup> of a ridge map from the full clip. The camera-frozen version is
+            farther from the full clip and harder to predict, so mapping towards it is harder: the visual impact of moving
+            the camera is simply larger than that of moving an object.
+          </p>
+        </div>
+
+        <div class="analysis-block">
+          <h3 class="title is-5">How much information does camera motion contain about actions?</h3>
+          <img class="fig-70" src="static/images/analysis_camera_only.png" alt="Action recognition accuracy from CamBit alone compared with backbone features on four datasets.">
+          <p class="fig-caption">
+            Action recognition from <span class="dnerf">CamBit</span> alone, compared with the backbone features, on four
+            real datasets. On every dataset and backbone, <span class="dnerf">CamBit</span> alone recognizes actions far above
+            chance: camera motion itself carries information about the action, so a representation with less camera
+            information can also lose part of what these tasks rely on.
+          </p>
+        </div>
+
+        <div class="analysis-block">
+          <h3 class="title is-5">Which actions benefit from the scene mapping?</h3>
+          <img class="fig-70" src="static/images/analysis_ssv2_categories.png" alt="Change in SSv2 top-1 accuracy per class category after the scene mapping, for four backbones.">
+          <p class="fig-caption">
+            SSv2 classes grouped by what their labels describe. On average across backbones, accuracy improves for classes
+            where an object moves relative to the camera, and drops the most for classes defined by camera motion, showing
+            that <span class="dnerf">SceneBit</span> indeed moves away from camera information. Linear probes are trained on
+            6,005 class-stratified training clips and evaluated on 4,000 randomly sampled validation clips.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <!-- ===== BIBTEX SWITCH (keep in sync with the author block) =====
+         TODO(bibtex): fill in venue / year / key once known. Variant A (named) is active;
+         for the anonymous variant, replace the author line with: author = {Anonymous}, -->
+    <pre><code>@inproceedings{zhou_freeze,
+  title     = {Camera and Scene Motion Interfere with Each Other in Video Representations},
+  author    = {Zhou, Ziqi and Sevilla-Lara, Laura},
+  booktitle = {TBD},
+  year      = {TBD}
+}</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered is-size-7">
+          <p>
+            This page is adapted from the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>
+            project page template, licensed under
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const V = "static/videos/";
+  const GRIDS = {
+    "grid-physics": [
+      ["physics/collision_1", "Collision, example 1"],
+      ["physics/collision_2", "Collision, example 2"],
+      ["physics/drop_bounce_1", "Drop / bounce, example 1"],
+      ["physics/drop_bounce_2", "Drop / bounce, example 2"],
+      ["physics/rolling_1", "Rolling, example 1"],
+      ["physics/rolling_2", "Rolling, example 2"],
+      ["physics/static_1", "Static"]
+    ],
+    "grid-camobj": [
+      ["camera_object/move_in", "Move in", "pan left"],
+      ["camera_object/move_right", "Move right", "pan left, tilt down"],
+      ["camera_object/move_down", "Move down", "tilt up, roll CW"],
+      ["camera_object/pan_right", "Pan right", "roll CW"],
+      ["camera_object/tilt_down", "Tilt down"],
+      ["camera_object/roll_clockwise", "Roll clockwise"],
+      ["camera_object/roll_counterclockwise", "Roll counterclockwise", "move out"],
+      ["camera_object/zoom_in", "Zoom in", "move down, roll CCW"],
+      ["camera_object/static", "Static"]
+    ],
+    "grid-camhum": [
+      ["camera_human/move_in", "Move in"],
+      ["camera_human/move_out", "Move out"],
+      ["camera_human/move_left", "Move left"],
+      ["camera_human/pan_left", "Pan left"],
+      ["camera_human/tilt_down", "Tilt down"],
+      ["camera_human/static", "Static"]
+    ],
+    "grid-moment": [
+      ["same_moment/scene1_positive", "Scene 1: <span class=\"pos\">positive pair</span>, same start time"],
+      ["same_moment/scene1_negative", "Scene 1: <span class=\"neg\">negative pair</span>, different start times"],
+      ["same_moment/scene2_positive", "Scene 2: <span class=\"pos\">positive pair</span>, same start time"],
+      ["same_moment/scene2_negative", "Scene 2: <span class=\"neg\">negative pair</span>, different start times"],
+      ["same_moment/scene3_positive", "Scene 3: <span class=\"pos\">positive pair</span>, same start time"],
+      ["same_moment/scene3_negative", "Scene 3: <span class=\"neg\">negative pair</span>, different start times"]
+    ]
+  };
+
+  for (const [id, clips] of Object.entries(GRIDS)) {
+    document.getElementById(id).innerHTML = clips.map(([f, label, also]) => `
+      <figure>
+        <video muted loop playsinline preload="none" poster="${V}${f}.jpg" src="${V}${f}.mp4"></video>
+        <figcaption>${label}${also ? ` <span class="also">+ ${also}</span>` : ""}</figcaption>
+      </figure>`).join("");
+  }
+
+  // Play videos only while they are on screen; fall back to autoplay without IntersectionObserver.
+  const vids = document.querySelectorAll(".clip-grid video");
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.play().catch(() => {}); } else { e.target.pause(); }
+    }), {threshold: 0.25});
+    vids.forEach(v => io.observe(v));
+  } else {
+    vids.forEach(v => { v.preload = "auto"; v.autoplay = true; v.play().catch(() => {}); });
+  }
+</script>
+</body>
+</html>
