@@ -1,19 +1,40 @@
 # Camera and Scene Motion Interfere with Each Other in Video Representations
 
-**Ziqi Zhou, Laura Sevilla-Lara** — University of Edinburgh
+**Ziqi Zhou, Laura Sevilla-Lara** · University of Edinburgh
 
-[Project page](https://jia1018.github.io/Freeze/)
+[![Project page](https://img.shields.io/badge/Project-Page-blue)](https://jia1018.github.io/Freeze/)
+![Code](https://img.shields.io/badge/Code-coming%20soon-lightgrey)
+![Benchmark](https://img.shields.io/badge/Freeze%20benchmark-coming%20soon-lightgrey)
 
-Real-world videos often contain both camera motion and scene motion. We introduce **Freeze**, a synthetic benchmark of video triplets: the original clip, the same clip with the camera frozen, and the same clip with the scene frozen. With it we measure how camera and scene motion interfere in the representations of video foundation models, and we learn two lightweight post hoc mappings on top of frozen backbone features: **CamBit** (camera) and **SceneBit** (scene).
+<p align="center">
+  <img src="docs/static/images/teaser.png" width="85%" alt="Two Something-Something v2 clips in which the object and the camera move together, misclassified by state-of-the-art video backbones">
+</p>
 
-## Code and data
+Real-world videos often contain both camera motion and scene motion, and video foundation models encode the two jointly. We ask whether the two motions interfere with each other in these representations, and whether the interference can be reduced post hoc.
 
-- **Freeze benchmark:** coming soon.
-- **Code** (feature extraction, CamBit / SceneBit training and evaluation): coming soon.
+- **Freeze** is a synthetic benchmark of video triplets: the original clip, the same clip with the **camera frozen**, and the same clip with the **scene frozen**. It has an object subset (Freeze-Object, rendered physics scenes) and a human subset (Freeze-Human). All four video foundation models we test do better on every camera and scene task once the other motion is frozen, so the interference goes both ways.
+- **CamBit** and **SceneBit** are two lightweight mappings learned on top of fixed backbone features. They bring a clip's features closer to its scene-frozen and camera-frozen versions. CamBit improves camera understanding and geometric grounding on real videos for nearly every task and backbone; SceneBit improves the scene tasks of Freeze and those on real videos, with a context-dependent effect.
 
-## Project page
+<p align="center">
+  <img src="docs/static/images/overview.png" width="85%" alt="Overview of the CamBit and SceneBit mappings">
+</p>
 
-The project page is served from the [`docs/`](docs/) folder of this repository with GitHub Pages.
+## Status
+
+| | |
+|---|---|
+| Project page | available: <https://jia1018.github.io/Freeze/> |
+| Paper | coming soon |
+| Freeze benchmark (videos, labels, splits) | coming soon |
+| Code (feature extraction, CamBit / SceneBit training and evaluation) | coming soon |
+
+Watch or star this repository to be notified when the code and the benchmark are released.
+
+## Repository layout
+
+```
+docs/      project page (served with GitHub Pages)
+```
 
 ## Citation
 
@@ -25,3 +46,7 @@ The project page is served from the [`docs/`](docs/) folder of this repository w
   year      = {TBD}
 }
 ```
+
+## Acknowledgements
+
+The project page is based on the [Nerfies](https://github.com/nerfies/nerfies.github.io) template.
