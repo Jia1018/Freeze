@@ -142,17 +142,17 @@
             kinds of scene motion found in real videos:
           </p>
           <ul>
-            <li><b><span class="dnerf">Freeze</span>-Object</b>: rendered with Kubric. One to five rigid shapes in a room
+            <li><b><span class="dnerf">Freeze</span>-Object</b>: rendered with Kubric&nbsp;<span class="cite">[<a href="#ref-kubric">1</a>]</span>. One to five rigid shapes in a room
               follow one of four types of physics (collision, drop / bounce, rolling, static), while the camera combines up
               to seven motion axes (three translations, pan, tilt, roll and zoom). Rendering each simulation again with the
               camera, or every object, held at its first-frame state gives the two frozen versions. 500 triplets in 80 rooms.</li>
-            <li><b><span class="dnerf">Freeze</span>-Human</b>: built from Cam&times;Time, where each scene films an
+            <li><b><span class="dnerf">Freeze</span>-Human</b>: built from Cam&times;Time&nbsp;<span class="cite">[<a href="#ref-camxtime">2</a>]</span>, where each scene films an
               animated human character along four camera trajectories and every moment of the motion is rendered from
               every camera position. Holding the camera at its first position gives the camera-frozen version, holding the
               motion at its first moment gives the scene-frozen version. All 417 scenes.</li>
           </ul>
           <p>
-            Camera motion is labelled with CameraBench's 15 binary primitives. For scene motion, we classify the
+            Camera motion is labelled with CameraBench&nbsp;<span class="cite">[<a href="#ref-camerabench">3</a>]</span>'s 15 binary primitives. For scene motion, we classify the
             <em>physics family</em> on <span class="dnerf">Freeze</span>-Object, and on <span class="dnerf">Freeze</span>-Human
             we ask whether two windows filmed along different trajectories show the <em>same moment</em>.
           </p>
@@ -208,7 +208,7 @@
         <h3 class="title is-4 subset-title">Interference exists in both directions</h3>
         <div class="content has-text-justified">
           <p>
-            We evaluate four pre-trained video backbones (V-JEPA 2.1, VideoMAEv2, RVM and WhatMoves), kept fixed, with
+            We evaluate four pre-trained video backbones (V-JEPA 2.1&nbsp;<span class="cite">[<a href="#ref-vjepa21">4</a>]</span>, VideoMAEv2&nbsp;<span class="cite">[<a href="#ref-videomaev2">5</a>]</span>, RVM&nbsp;<span class="cite">[<a href="#ref-rvm">6</a>]</span> and WhatMoves&nbsp;<span class="cite">[<a href="#ref-whatmoves">7</a>]</span>), kept fixed, with
             linear probes. For each task, one probe is trained on the full clips and another on their frozen versions.
             Every backbone does better on every task once the other motion is frozen: the interference between camera
             and scene motion is not only intuitive but measurable, and it occurs in both directions.
@@ -270,7 +270,7 @@
             <b><span class="dnerf">CamBit</span></b> = <i>x</i> &minus; <i>w</i>(<i>x</i>) is trained to bring <i>x</i>
             closer to the features of its <b>scene-frozen</b> version on <span class="dnerf">Freeze</span>, and to leave a
             clip unchanged when its scene is already frozen. To close the domain gap, it is also supervised with the
-            camera motion of real clips (Condensed Movies, with poses estimated by VGGT-&Omega;) and BEDLAM2: a pose head
+            camera motion of real clips (Condensed Movies&nbsp;<span class="cite">[<a href="#ref-condensed">8</a>]</span>, with poses estimated by VGGT-&Omega;&nbsp;<span class="cite">[<a href="#ref-vggt">9</a>]</span>) and BEDLAM2&nbsp;<span class="cite">[<a href="#ref-bedlam2">10</a>]</span>: a pose head
             predicts the direction and speed of the camera motion between consecutive steps.
           </p>
           <p>
@@ -299,8 +299,8 @@
         <h3 class="title is-4">Camera results</h3>
         <div class="content has-text-justified">
           <p>
-            <span class="dnerf">CamBit</span> improves camera understanding (CameraBench, ACaM, held-out
-            <span class="dnerf">Freeze</span>) and geometric grounding (relative pose on DL3DV, EMDB and TUM RGB-D) on
+            <span class="dnerf">CamBit</span> improves camera understanding (CameraBench, ACaM&nbsp;<span class="cite">[<a href="#ref-acam">11</a>]</span>, held-out
+            <span class="dnerf">Freeze</span>) and geometric grounding (relative pose on DL3DV&nbsp;<span class="cite">[<a href="#ref-dl3dv">12</a>]</span>, EMDB&nbsp;<span class="cite">[<a href="#ref-emdb">13</a>]</span> and TUM RGB-D&nbsp;<span class="cite">[<a href="#ref-tum">14</a>]</span>) on
             nearly every task and backbone, sometimes by close to 20 points. The camera information is implicit in the
             features and can be extracted post hoc, without re-training the foundation model.
           </p>
@@ -347,7 +347,7 @@
           <p>
             On the held-out <span class="dnerf">Freeze</span> scenes, <span class="dnerf">SceneBit</span> improves
             physics-family accuracy on all four backbones and same-moment AUC on three of them. On real videos
-            (Diving48, SSv2, and the egocentric EPIC-KITCHENS and Ego-Exo4D, where the head-mounted camera moves more), the
+            (Diving48&nbsp;<span class="cite">[<a href="#ref-diving48">15</a>]</span>, SSv2&nbsp;<span class="cite">[<a href="#ref-ssv2">16</a>]</span>, and the egocentric EPIC-KITCHENS&nbsp;<span class="cite">[<a href="#ref-epic">17</a>]</span> and Ego-Exo4D&nbsp;<span class="cite">[<a href="#ref-egoexo">18</a>]</span>, where the head-mounted camera moves more), the
             effects are more nuanced and the gains are overall moderate, which motivates the analysis below.
           </p>
         </div>
@@ -461,24 +461,24 @@
   <div class="container is-max-desktop content">
     <h2 class="title is-4">References</h2>
     <ol>
-      <li>M. Mur-Labadia et al. <a href="https://arxiv.org/abs/2603.14482">V-JEPA 2.1: Unlocking Dense Features in Video Self-Supervised Learning</a>. <i>arXiv:2603.14482, 2026</i>.</li>
-      <li>F. Fundel et al. <a href="https://arxiv.org/abs/2609.04383">What Moves? Localized Motion Representations for Compositional Scene Understanding</a>. <i>ECCV 2026</i>.</li>
-      <li>L. Wang et al. <a href="https://arxiv.org/abs/2303.16727">VideoMAE V2: Scaling Video Masked Autoencoders with Dual Masking</a>. <i>CVPR 2023</i>.</li>
-      <li>D. Zoran et al. <a href="https://arxiv.org/abs/2512.13684">Recurrent Video Masked Autoencoders</a>. <i>CVPR 2026</i>.</li>
-      <li>K. Greff et al. <a href="https://arxiv.org/abs/2203.03570">Kubric: A Scalable Dataset Generator</a>. <i>CVPR 2022</i>.</li>
-      <li>Z. Huang et al. <a href="https://arxiv.org/abs/2512.25075">SpaceTimePilot: Generative Rendering of Dynamic Scenes Across Space and Time (Cam×Time dataset)</a>. <i>CVPR 2026</i>.</li>
-      <li>R. Goyal et al. <a href="https://arxiv.org/abs/1706.04261">The “Something Something” Video Database for Learning and Evaluating Visual Common Sense</a>. <i>ICCV 2017</i>.</li>
-      <li>Y. Li et al. <a href="https://openaccess.thecvf.com/content_ECCV_2018/html/Yingwei_Li_RESOUND_Towards_Action_ECCV_2018_paper.html">RESOUND: Towards Action Recognition without Representation Bias (Diving48)</a>. <i>ECCV 2018</i>.</li>
-      <li>D. Damen et al. <a href="https://arxiv.org/abs/2006.13256">Rescaling Egocentric Vision: Collection, Pipeline and Challenges for EPIC-KITCHENS-100</a>. <i>IJCV 2022</i>.</li>
-      <li>K. Grauman et al. <a href="https://arxiv.org/abs/2311.18259">Ego-Exo4D: Understanding Skilled Human Activity from First- and Third-Person Perspectives</a>. <i>CVPR 2024</i>.</li>
-      <li>Z. Lin et al. <a href="https://arxiv.org/abs/2504.15376">Towards Understanding Camera Motions in Any Video (CameraBench)</a>. <i>NeurIPS 2025</i>.</li>
-      <li>Y. Tan et al. <a href="https://arxiv.org/abs/2607.03043">Natural Language Camera Movement Understanding (ACaM)</a>. <i>ECCV 2026</i>.</li>
-      <li>L. Ling et al. <a href="https://arxiv.org/abs/2312.16256">DL3DV-10K: A Large-Scale Scene Dataset for Deep Learning-based 3D Vision</a>. <i>CVPR 2024</i>.</li>
-      <li>M. Kaufmann et al. <a href="https://arxiv.org/abs/2308.16894">EMDB: The Electromagnetic Database of Global 3D Human Pose and Shape in the Wild</a>. <i>ICCV 2023</i>.</li>
-      <li>J. Sturm et al. <a href="https://cvg.cit.tum.de/data/datasets/rgbd-dataset">A Benchmark for the Evaluation of RGB-D SLAM Systems (TUM RGB-D)</a>. <i>IROS 2012</i>.</li>
-      <li>J. Tesch et al. <a href="https://arxiv.org/abs/2511.14394">BEDLAM2.0: Synthetic Humans and Cameras in Motion</a>. <i>NeurIPS 2025</i>.</li>
-      <li>M. Bain et al. <a href="https://arxiv.org/abs/2005.04208">Condensed Movies: Story Based Retrieval with Contextual Embeddings</a>. <i>ACCV 2020</i>.</li>
-      <li>J. Wang et al. <a href="https://arxiv.org/abs/2605.15195">VGGT-Ω</a>. <i>CVPR 2026</i>.</li>
+      <li id="ref-kubric">K. Greff et al. <a href="https://arxiv.org/abs/2203.03570">Kubric: A Scalable Dataset Generator</a>. <i>CVPR 2022</i>.</li>
+      <li id="ref-camxtime">Z. Huang et al. <a href="https://arxiv.org/abs/2512.25075">SpaceTimePilot: Generative Rendering of Dynamic Scenes Across Space and Time (Cam×Time dataset)</a>. <i>CVPR 2026</i>.</li>
+      <li id="ref-camerabench">Z. Lin et al. <a href="https://arxiv.org/abs/2504.15376">Towards Understanding Camera Motions in Any Video (CameraBench)</a>. <i>NeurIPS 2025</i>.</li>
+      <li id="ref-vjepa21">M. Mur-Labadia et al. <a href="https://arxiv.org/abs/2603.14482">V-JEPA 2.1: Unlocking Dense Features in Video Self-Supervised Learning</a>. <i>arXiv:2603.14482, 2026</i>.</li>
+      <li id="ref-videomaev2">L. Wang et al. <a href="https://arxiv.org/abs/2303.16727">VideoMAE V2: Scaling Video Masked Autoencoders with Dual Masking</a>. <i>CVPR 2023</i>.</li>
+      <li id="ref-rvm">D. Zoran et al. <a href="https://arxiv.org/abs/2512.13684">Recurrent Video Masked Autoencoders</a>. <i>CVPR 2026</i>.</li>
+      <li id="ref-whatmoves">F. Fundel et al. <a href="https://arxiv.org/abs/2609.04383">What Moves? Localized Motion Representations for Compositional Scene Understanding</a>. <i>ECCV 2026</i>.</li>
+      <li id="ref-condensed">M. Bain et al. <a href="https://arxiv.org/abs/2005.04208">Condensed Movies: Story Based Retrieval with Contextual Embeddings</a>. <i>ACCV 2020</i>.</li>
+      <li id="ref-vggt">J. Wang et al. <a href="https://arxiv.org/abs/2605.15195">VGGT-Ω</a>. <i>CVPR 2026</i>.</li>
+      <li id="ref-bedlam2">J. Tesch et al. <a href="https://arxiv.org/abs/2511.14394">BEDLAM2.0: Synthetic Humans and Cameras in Motion</a>. <i>NeurIPS 2025</i>.</li>
+      <li id="ref-acam">Y. Tan et al. <a href="https://arxiv.org/abs/2607.03043">Natural Language Camera Movement Understanding (ACaM)</a>. <i>ECCV 2026</i>.</li>
+      <li id="ref-dl3dv">L. Ling et al. <a href="https://arxiv.org/abs/2312.16256">DL3DV-10K: A Large-Scale Scene Dataset for Deep Learning-based 3D Vision</a>. <i>CVPR 2024</i>.</li>
+      <li id="ref-emdb">M. Kaufmann et al. <a href="https://arxiv.org/abs/2308.16894">EMDB: The Electromagnetic Database of Global 3D Human Pose and Shape in the Wild</a>. <i>ICCV 2023</i>.</li>
+      <li id="ref-tum">J. Sturm et al. <a href="https://cvg.cit.tum.de/data/datasets/rgbd-dataset">A Benchmark for the Evaluation of RGB-D SLAM Systems (TUM RGB-D)</a>. <i>IROS 2012</i>.</li>
+      <li id="ref-diving48">Y. Li et al. <a href="https://openaccess.thecvf.com/content_ECCV_2018/html/Yingwei_Li_RESOUND_Towards_Action_ECCV_2018_paper.html">RESOUND: Towards Action Recognition without Representation Bias (Diving48)</a>. <i>ECCV 2018</i>.</li>
+      <li id="ref-ssv2">R. Goyal et al. <a href="https://arxiv.org/abs/1706.04261">The “Something Something” Video Database for Learning and Evaluating Visual Common Sense</a>. <i>ICCV 2017</i>.</li>
+      <li id="ref-epic">D. Damen et al. <a href="https://arxiv.org/abs/2006.13256">Rescaling Egocentric Vision: Collection, Pipeline and Challenges for EPIC-KITCHENS-100</a>. <i>IJCV 2022</i>.</li>
+      <li id="ref-egoexo">K. Grauman et al. <a href="https://arxiv.org/abs/2311.18259">Ego-Exo4D: Understanding Skilled Human Activity from First- and Third-Person Perspectives</a>. <i>CVPR 2024</i>.</li>
     </ol>
   </div>
 </section>
