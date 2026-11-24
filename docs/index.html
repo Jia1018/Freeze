@@ -543,13 +543,18 @@
   for (const [id, clips] of Object.entries(GRIDS)) {
     document.getElementById(id).innerHTML = clips.map(([f, label, also]) => `
       <figure>
-        <video muted loop playsinline preload="none" poster="${V}${f}.jpg" src="${V}${f}.mp4"></video>
+        <video muted loop playsinline autoplay preload="auto" poster="${V}${f}.jpg" src="${V}${f}.mp4"></video>
         <figcaption>${label}${also ? ` <span class="also">+ ${also}</span>` : ""}</figcaption>
       </figure>`).join("");
   }
 
   // Play videos only while they are on screen; fall back to autoplay without IntersectionObserver.
   const vids = document.querySelectorAll(".clip-grid video");
+  // Some browsers do not honour the loop attribute reliably for short clips: restart explicitly at the end.
+  vids.forEach(v => {
+    v.addEventListener("ended", () => { v.currentTime = 0; v.play().catch(() => {}); });
+    v.addEventListener("timeupdate", () => { if (v.duration && v.currentTime >= v.duration - 0.05) { v.currentTime = 0; } });
+  });
   if ("IntersectionObserver" in window) {
     const io = new IntersectionObserver(es => es.forEach(e => {
       if (e.isIntersecting) { e.target.play().catch(() => {}); } else { e.target.pause(); }
