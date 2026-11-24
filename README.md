@@ -2,6 +2,7 @@
 
 **Ziqi Zhou, Laura Sevilla-Lara** · University of Edinburgh
 
+![Paper](https://img.shields.io/badge/Paper-coming%20soon-lightgrey)
 [![Project page](https://img.shields.io/badge/Project-Page-blue)](https://jia1018.github.io/Freeze/)
 ![Code](https://img.shields.io/badge/Code-coming%20soon-lightgrey)
 ![Benchmark](https://img.shields.io/badge/Freeze%20benchmark-coming%20soon-lightgrey)
