@@ -1,6 +1,6 @@
 # Camera and Scene Motion Interfere with Each Other in Video Representations
 
-**Ziqi Zhou, Laura Sevilla-Lara** · University of Edinburgh
+**Ziqi Zhou, Laura Sevilla-Lara** · School of Informatics, University of Edinburgh
 
 ![Paper](https://img.shields.io/badge/Paper-coming%20soon-lightgrey)
 [![Project page](https://img.shields.io/badge/Project-Page-blue)](https://jia1018.github.io/Freeze/)
