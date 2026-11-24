@@ -204,8 +204,8 @@ body {
   text-align: left;
 }
 
-.fig-70 { width: 56%; }
-.fig-90 { width: 72%; }
+.fig-70 { width: 45%; }
+.fig-90 { width: 60%; }
 @media (max-width: 768px) {
   .fig-70, .fig-90 { width: 100%; }
 }
