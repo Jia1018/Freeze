@@ -247,7 +247,7 @@ body {
 .viz-table th {
   font-family: 'Google Sans', sans-serif;
   font-weight: normal;
-  font-size: 0.85rem;
+  font-size: 1rem;
   text-align: left;
   padding-right: 0.6rem;
   white-space: nowrap;
@@ -259,13 +259,14 @@ body {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   font-family: 'Google Sans', sans-serif;
-  font-size: 0.78rem;
+  font-size: 1rem;
   text-align: center;
-  color: #555;
+  color: #444;
+  margin-bottom: 0.2rem;
 }
 @media (max-width: 600px) {
-  .viz-head { font-size: 0.6rem; }
-  .viz-table th { font-size: 0.7rem; }
+  .viz-head { font-size: 0.72rem; }
+  .viz-table th { font-size: 0.8rem; }
 }
 
 .subset-title { margin-top: 1.5rem !important; }
