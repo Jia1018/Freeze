@@ -19,12 +19,6 @@ Real-world videos often contain both camera motion and scene motion, and video f
   <img src="docs/static/images/overview.png" width="85%" alt="Overview of the CamBit and SceneBit mappings">
 </p>
 
-## Repository layout
-
-```
-docs/      project page (served with GitHub Pages)
-```
-
 ## Citation
 
 ```bibtex
