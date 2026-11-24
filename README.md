@@ -19,17 +19,6 @@ Real-world videos often contain both camera motion and scene motion, and video f
   <img src="docs/static/images/overview.png" width="85%" alt="Overview of the CamBit and SceneBit mappings">
 </p>
 
-## Status
-
-| | |
-|---|---|
-| Project page | available: <https://jia1018.github.io/Freeze/> |
-| Paper | coming soon |
-| Freeze benchmark (videos, labels, splits) | coming soon |
-| Code (feature extraction, CamBit / SceneBit training and evaluation) | coming soon |
-
-Watch or star this repository to be notified when the code and the benchmark are released.
-
 ## Repository layout
 
 ```
