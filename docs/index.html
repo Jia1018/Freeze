@@ -142,17 +142,17 @@
             kinds of scene motion found in real videos:
           </p>
           <ul>
-            <li><b><span class="dnerf">Freeze</span>-Object</b>: rendered with Kubric&nbsp;<span class="cite">[<a href="#ref-kubric">1</a>]</span>. One to five rigid shapes in a room
+            <li><b><span class="dnerf">Freeze</span>-Object</b>: rendered with Kubric<span class="cite">[<a href="#ref-kubric">1</a>]</span>. One to five rigid shapes in a room
               follow one of four types of physics (collision, drop / bounce, rolling, static), while the camera combines up
               to seven motion axes (three translations, pan, tilt, roll and zoom). Rendering each simulation again with the
               camera, or every object, held at its first-frame state gives the two frozen versions. 500 triplets in 80 rooms.</li>
-            <li><b><span class="dnerf">Freeze</span>-Human</b>: built from Cam&times;Time&nbsp;<span class="cite">[<a href="#ref-camxtime">2</a>]</span>, where each scene films an
+            <li><b><span class="dnerf">Freeze</span>-Human</b>: built from Cam&times;Time<span class="cite">[<a href="#ref-camxtime">2</a>]</span>, where each scene films an
               animated human character along four camera trajectories and every moment of the motion is rendered from
               every camera position. Holding the camera at its first position gives the camera-frozen version, holding the
               motion at its first moment gives the scene-frozen version. All 417 scenes.</li>
           </ul>
           <p>
-            Camera motion is labelled with CameraBench&nbsp;<span class="cite">[<a href="#ref-camerabench">3</a>]</span>'s 15 binary primitives. For scene motion, we classify the
+            Camera motion is labelled with CameraBench<span class="cite">[<a href="#ref-camerabench">3</a>]</span>'s 15 binary primitives. For scene motion, we classify the
             <em>physics family</em> on <span class="dnerf">Freeze</span>-Object, and on <span class="dnerf">Freeze</span>-Human
             we ask whether two windows filmed along different trajectories show the <em>same moment</em>.
           </p>
@@ -208,7 +208,7 @@
         <h3 class="title is-4 subset-title">Interference exists in both directions</h3>
         <div class="content has-text-justified">
           <p>
-            We evaluate four pre-trained video backbones (V-JEPA 2.1&nbsp;<span class="cite">[<a href="#ref-vjepa21">4</a>]</span>, VideoMAEv2&nbsp;<span class="cite">[<a href="#ref-videomaev2">5</a>]</span>, RVM&nbsp;<span class="cite">[<a href="#ref-rvm">6</a>]</span> and WhatMoves&nbsp;<span class="cite">[<a href="#ref-whatmoves">7</a>]</span>), kept fixed, with
+            We evaluate four pre-trained video backbones (V-JEPA 2.1<span class="cite">[<a href="#ref-vjepa21">4</a>]</span>, VideoMAEv2<span class="cite">[<a href="#ref-videomaev2">5</a>]</span>, RVM<span class="cite">[<a href="#ref-rvm">6</a>]</span> and WhatMoves<span class="cite">[<a href="#ref-whatmoves">7</a>]</span>), kept fixed, with
             linear probes. For each task, one probe is trained on the full clips and another on their frozen versions.
             Every backbone does better on every task once the other motion is frozen: the interference between camera
             and scene motion is not only intuitive but measurable, and it occurs in both directions.
@@ -270,7 +270,7 @@
             <b><span class="dnerf">CamBit</span></b> = <i>x</i> &minus; <i>w</i>(<i>x</i>) is trained to bring <i>x</i>
             closer to the features of its <b>scene-frozen</b> version on <span class="dnerf">Freeze</span>, and to leave a
             clip unchanged when its scene is already frozen. To close the domain gap, it is also supervised with the
-            camera motion of real clips (Condensed Movies&nbsp;<span class="cite">[<a href="#ref-condensed">8</a>]</span>, with poses estimated by VGGT-&Omega;&nbsp;<span class="cite">[<a href="#ref-vggt">9</a>]</span>) and BEDLAM2&nbsp;<span class="cite">[<a href="#ref-bedlam2">10</a>]</span>: a pose head
+            camera motion of real clips (Condensed Movies<span class="cite">[<a href="#ref-condensed">8</a>]</span>, with poses estimated by VGGT-&Omega;<span class="cite">[<a href="#ref-vggt">9</a>]</span>) and BEDLAM2<span class="cite">[<a href="#ref-bedlam2">10</a>]</span>: a pose head
             predicts the direction and speed of the camera motion between consecutive steps.
           </p>
           <p>
@@ -299,8 +299,8 @@
         <h3 class="title is-4">Camera results</h3>
         <div class="content has-text-justified">
           <p>
-            <span class="dnerf">CamBit</span> improves camera understanding (CameraBench, ACaM&nbsp;<span class="cite">[<a href="#ref-acam">11</a>]</span>, held-out
-            <span class="dnerf">Freeze</span>) and geometric grounding (relative pose on DL3DV&nbsp;<span class="cite">[<a href="#ref-dl3dv">12</a>]</span>, EMDB&nbsp;<span class="cite">[<a href="#ref-emdb">13</a>]</span> and TUM RGB-D&nbsp;<span class="cite">[<a href="#ref-tum">14</a>]</span>) on
+            <span class="dnerf">CamBit</span> improves camera understanding (CameraBench, ACaM<span class="cite">[<a href="#ref-acam">11</a>]</span>, held-out
+            <span class="dnerf">Freeze</span>) and geometric grounding (relative pose on DL3DV<span class="cite">[<a href="#ref-dl3dv">12</a>]</span>, EMDB<span class="cite">[<a href="#ref-emdb">13</a>]</span> and TUM RGB-D<span class="cite">[<a href="#ref-tum">14</a>]</span>) on
             nearly every task and backbone, sometimes by close to 20 points. The camera information is implicit in the
             features and can be extracted post hoc, without re-training the foundation model.
           </p>
@@ -347,7 +347,7 @@
           <p>
             On the held-out <span class="dnerf">Freeze</span> scenes, <span class="dnerf">SceneBit</span> improves
             physics-family accuracy on all four backbones and same-moment AUC on three of them. On real videos
-            (Diving48&nbsp;<span class="cite">[<a href="#ref-diving48">15</a>]</span>, SSv2&nbsp;<span class="cite">[<a href="#ref-ssv2">16</a>]</span>, and the egocentric EPIC-KITCHENS&nbsp;<span class="cite">[<a href="#ref-epic">17</a>]</span> and Ego-Exo4D&nbsp;<span class="cite">[<a href="#ref-egoexo">18</a>]</span>, where the head-mounted camera moves more), the
+            (Diving48<span class="cite">[<a href="#ref-diving48">15</a>]</span>, SSv2<span class="cite">[<a href="#ref-ssv2">16</a>]</span>, and the egocentric EPIC-KITCHENS<span class="cite">[<a href="#ref-epic">17</a>]</span> and Ego-Exo4D<span class="cite">[<a href="#ref-egoexo">18</a>]</span>, where the head-mounted camera moves more), the
             effects are more nuanced and the gains are overall moderate, which motivates the analysis below.
           </p>
         </div>
